@@ -1,0 +1,66 @@
+테이블 : 행과 열이 있는 표를 만들 때 사용
+css가 없었을 떄 주로 사용되었지만 이제는 flex나 grid를 사용한 레이아웃 쓰는게 나음
+
+td 
+하나의 셀을 만든다
+tr 
+table row, 하나의 행을 만듬
+th
+테이블에서의 헤더
+
+thead
+th를 묶어주는 시맨틱?
+tfoot
+
+tbody
+td들을 묶어주는 시맨틱?
+
+colspan
+
+rowspan
+
+폼
+그룹화된 모든 인풋을 담은 상자
+
+submit시 어디로 보낼지 지시한다.
+
+action = 폼이 제출되었을 때 데이터를 보낼 위치와 시간은 이 속성이 지정함.
+폼을 제출하면 http 요청이 전송됨 action이라는 속성을 사용하여 해당 요청이 어디로 가는지 제어.
+
+form안의 button은 form을 submit하는 동작을 가지지만 (기본타입이 submit임)
+type="button"으로 그저 버튼으로만 동작하게 할 수도 있음.
+
+input에 name은 서버로 데이터를 전송할 때 각 인풋의 값을 알려줌
+
+input checkbox
+체크하고 submit할 시 name=on 체크가 없을시 그냥 보냄
+checked를 쓸시 처음부터 체크되어있음.
+
+input radio
+같은 name으로 묶으면 그중 하나만 선택가능하게 할 수 있음
+value가 없을시 name=on 을 submit하기 떄문에 value를 줘서 name=value형태로 받아야 함
+
+select & option
+
+radio와 같은 submit.
+load시 이미 선택돼 있는 option을 만드려면 selected 써주면 됨
+
+range
+min과 max값을 설정 가능. name=선택된 숫자 로 보내짐
+step으로 한 번에 몇 단계 이동할지 설정가능
+value로는 최초값을 지정해 줄수 있음 (default value)
+
+num도 min max value등 입력 가능
+
+textarea
+input과는 다름
+
+유효성 검사
+maxlength 최대 입력 수
+minlenth 최소 입력 수
+required 필수입력란
+tpye = email(중간에 @가 있고 그 뒤로 뭔가 써져있는지만 확인)
+type= url(http:// 혹은 https:// 이런 식인지만 확인)
+
+
+label을 입력하여 input과 이어주는 건 매우 중요하다 귀찮지만 꼭 해야되는 일이라고 함.
