@@ -1,0 +1,38 @@
+무한 루프
+for문 조건이 이상하면 무한루프함 가능하면 피한다 별 의미 없음
+
+iterable 
+반복할 수 있는
+
+while
+구문의 한 부분이 하나의 조건인 괄호 대신에 있음.
+for() 안에 들어가는 요소를 분해해서 사용한다고 생각하면 된다
+
+let num = 0;
+while (num < 10) {
+  console.log(num);
+  num++
+}
+
+반복 횟수가 정확히 정해지지 않았을 때, 특정 조건을 충족했을 때 어떤 것을 실행하고 싶다면 while loop를 쓰는 것이 좋다.
+
+break;
+loop문에 사용하면 특정 조건일 때 즉시 멈추게 할 수 있음
+
+for of 
+배열에 대한 반복.
+let arr = [1,2,3]; 이렇게 있을 떄
+length없이 반복하고 싶다면
+for ( itme of arr) {
+  console.log(item);
+} 일케 쓰면댐
+
+for in 
+객체애 대한 반복임. 
+평범하게 사용하면 key값 만 반환 함
+
+Object.keys(객체명); 으로 오브젝트의 키 값만 '배열로' 받아올 수 있고
+Object.values(객체명); 으로 오브젝트의 밸류 값만 '배열로' 받아올 수도 있다.
+Object.entries(객체명);은 둘 다 받아옴
+
+길이를 사용하고 싶다면 keys나 values를 사용해서 새로운 변수에 배열을 담아준 후 length를 사용하면 됨.

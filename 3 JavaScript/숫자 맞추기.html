@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  
+  <script>
+
+    let maximum = parseInt(prompt("enter the maximum number!"));
+    while(!maximum) {
+        maximum = parseInt(prompt("enter the maximum number!"));
+    }
+
+    const random = Math.floor((Math.random() * maximum) +1 );
+    console.log(random);
+
+    let guess = prompt("Enter your guess");
+    let chance = 1;
+
+    while(parseInt(guess) != random) {
+      if(guess === 'q') break;
+      chance++
+      if (guess > random) {
+        guess = prompt("입력한 것 보다 더 낮아");
+      } else if ( guess < random) {
+        guess = prompt("입력한 것보다 더 높음");
+      }
+    }
+    if(guess === 'q') {
+      alert("포기함")
+    } else {
+      alert(`축하해 ${chance}번 만에 맞춤`)
+    }
+  </script>
+</body>
+</html>

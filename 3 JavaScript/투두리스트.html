@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <h1>Todo list</h1>
+
+  <ul>
+    <li>"new" - Add A Todo</li>
+    <li>"list" - List All Todos</li>
+    <li>"delete" - remove specific todo</li>
+    <li>"quit" - quit app</li>
+  </ul>
+
+  <script>
+    let input = prompt("뭐할건데");
+    const todos = ['뻐큐'];
+    while(input !== 'quit' && input !== 'q') {
+      if (input === 'new') {
+        const todo = prompt("리스트에 추가할 거 뭔데");
+        todos.push(todo);
+        console.log("ㅇㅇ 추가함")
+      } else if (input === 'list') {
+        console.log('*************************');
+        for (let i = 0; i < todos.length; i++) {
+          console.log(`${i}. ${todos[i]}`);
+        }
+        console.log('*************************');
+      } else if (input === 'delete') {
+        let remove = prompt("삭제할 인덱스 입력해라");
+        const deleted = todos.splice(remove,1);
+        console.log(`${deleted}삭제 됨`);
+      }
+      
+      input = prompt("뭐할건데");
+    }
+    console.log("앱 끔")
+  </script>
+</body>
+</html>
