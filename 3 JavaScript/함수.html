@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <script>
+    // arguments = 매개변수 , 인자는 greet('인자') 여기에 들어가는거 
+    // 예상 인수가 전달되지 않거나 정의되지 않으면 undefined를 반환
+
+    function sumArray(x) {
+      let total = 0
+      for (let i = 0; i < x.length; i++) {
+        total += x[i];
+      }
+      return total;
+    }
+
+    function capitalize(x) {
+      let a = x[0].toUpperCase()
+      let b = x.slice(1, x.length);
+      return a + b;
+    }
+
+    capitalize("asdsdfsda");
+
+    function returnDay(x) {
+      if (x === 1) {
+        return "Monday";
+      } else if ( x === 2) {
+        return "Tuesday";
+      } else if ( x === 3) {
+        return "Wednesday";
+      } else if ( x === 4) {
+        return "Thursday";
+      } else if ( x === 5) {
+        return "Friday";
+      } else if ( x === 6) {
+        return "Saturday";
+      } else if ( x === 7) {
+        return "Sunsday";
+      } else {
+        return null;
+      }
+    }
+
+    console.log(returnDay(0));
+  </script>
+</body>
+
+</html>
