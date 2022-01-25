@@ -1,0 +1,25 @@
+try에 예외처리할 
+
+트라이는 무조건 catch와 쌍으로 쓰여야함. 마지막엔 무조건 catch가 와야 함
+
+try{
+  정의되지 않은 뭐 에러가 뜰만한 그런 거
+} catch {
+  conosle.log("ERROR!!!!!");
+}
+
+이러면 try에서 대충 언디파인트 뭐시기 언카우치 뜨는걸 막고 대신 ERROR!!!이 콘솔에 출력됨
+
+function yell(msg) {
+  try{
+    console.log(msg.toUpperCase());
+  } catch {
+    console.log("문자열을 입력해라");
+  }
+}
+
+
+이 경우 yell 함수의 try에선 문자열 메서드인 toUpperCase를 사용하고 있기 때문에 저게 적용되는 타입이 아니면 에러가 뜬다. 그래서 에러가 뜰 상황을 상정하고 catch를 달아주는 것 같다.
+
+async함수를 쓸때 매우 유용하고 노드를 표현할때는 반드시 쓸 수 밖에 없기 때문에 나중에 배울거다
+

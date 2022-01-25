@@ -21,6 +21,7 @@ loop문에 사용하면 특정 조건일 때 즉시 멈추게 할 수 있음
 
 for of 
 배열에 대한 반복.
+정확히는 [Symbol.iterator] 속성을 가지는 컬렉션 전용 반복
 let arr = [1,2,3]; 이렇게 있을 떄
 length없이 반복하고 싶다면
 for ( itme of arr) {
@@ -28,7 +29,8 @@ for ( itme of arr) {
 } 일케 쓰면댐
 
 for in 
-객체애 대한 반복임. 
+객체의 모든 열거 가능한 속성(property)에 대한 반복
+객체에 대한 반복임. 
 평범하게 사용하면 key값 만 반환 함
 
 Object.keys(객체명); 으로 오브젝트의 키 값만 '배열로' 받아올 수 있고

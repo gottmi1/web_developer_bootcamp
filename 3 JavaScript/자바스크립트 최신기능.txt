@@ -1,0 +1,47 @@
+기본 매개변수(디폴트 값)
+
+매개변수가 선언되지 않았을 때의 기본값을 줄 수 있따.
+function multi(a, b =1) {
+  return a*b
+}
+multi(4) // 4
+multi(4,5) // 20
+두번째 인자를 입력하지 않으면 1을 반환할 거임
+
+디폴트 값은 되도록이면 필수 값 뒤 쪽으로 배치하는 게 좋다고 한다
+
+
+함수 호출시 스프레드 연산자
+
+    const nums = [11,2,3,4,5,6,6,3,35,35,35,35];
+
+    console.log(Math.max(nums)); // NaN nums = Arr이기 때문
+    console.log(Math.max(...nums)); // 제대로 된다
+    
+    console.log(nums); // 숫자가 들어간 배열
+    console.log(...nums); // 배열이 사라지고 숫자만 남음
+
+    console.log(..."hello"); // hello를 분해시켜 h e l l o 로 받음
+
+배열을 풀어서 받을 수 있다. concat할 때도 보통 [a,b,c,d,[a,b,c]]이런식으로 배열안에 새 배열이 추가 되는데 스프레드 연산자를 쓰면 인자만 제대로 받아짐
+
+
+객체에서의 스트레드 연산자
+
+    const feline = {legs: 4, family: 'Felidae'};
+    const canine = {isFurry: true, family: "Caniane"};
+
+    const felineBlack = {...feline, colr: "black"}
+    console.log(felineBlack);
+    이렇게 새로운 객체에 전에 있던 객체 + @를 할수도 있고
+
+    const catDog = {...feline, ...canine}
+
+    두 객체를 새로운 객체로 만들 수도 있다.
+    console.log(catDog); // 이 경우 famliy속성이 겹치는데 겹치는 부분은 뒤에 온 객체의 속성을 따라감.
+
+객체의 복사본을 만들 때 주로 사용한다. 특히 react같은 프레임워크를 사용할 때 많이 씀.
+한 가지 정보를 가져와서 그 안에 추가해야할 것들이 있을떄 예를들어 id나 관리권한등 그럴 떄 쓸 수 있음.
+
+
+레스트연산자

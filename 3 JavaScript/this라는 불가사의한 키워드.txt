@@ -1,0 +1,44 @@
+객체 안에서 사용할 때는 '이 객체'를 가리키지만 항상 그렇지는 않다.
+
+const cat = {
+  name: "blue",
+  color: "grey",
+  breed: "scottish fold",
+  meow() {
+    console.log(`${this.name} says meowwww`);
+  }
+}
+
+이런객체가 잇을 때
+
+const meow2 = cat.meow;
+meow2 = function {console.log(`${this.name} says meowwww`)} 반환
+meow2() = says meowwww를 반환
+this가 무엇인지 정의되지 않았기 때문 같음.
+
+이 둘의 다른점은 호출 문맥에 있는데
+cat.meow()시 this는 . 전에있는 것을 객체의 이름을 this로 설정함.
+this는 cat 객체를 대신하여 나타내지는 않는다.
+
+cat 안에 "this is" + this를 console.log 하면 cat 객체가 나온다.
+meow2()를 하면 this는 window로 설정된다.
+
+
+정리 
+- 객체 안에 있는 this는 해당 객체를 담는다.
+- 이 객체의 메서드를 객체 밖에서 다른 변수로 담고 실행한다면, 해당 객체를 참조하지 못하고 this는 window를 부르게 된다. window는 스크립드단의 최상위 객체라고 보면 됨.
+
+alert,prompt,console.log등 다 window.alert("ㅇㅀㄴㅇㅀㄴ") 이런 식으로 호출 가능하지만 아무도 그렇게 하지 않음.
+
+따라서 cat.meow의 this는 cat이고, 
+meow2 = cat.meow일 떄
+meow2()에서의 this가 window인 이유는 meow2 에는 앞에 window.이 생략됐기 때문이다.
+
+
+요약
+
+1. 객체 안에서의 this는 그 객체를 말함.
+2. 객체명.메서드명 형식에서 this는 .왼쪽에 있는 객체명을 참조함.
+3. 객체명.메서드명을 다른 변수에 담았을 때, 그 변수를 실행하면 this는 window가 됨.
+4. 왜냐? 기본적으로 .의 왼쪽 값을 참조하는데 변수를 실행하면 window.담은 변수명 이 될테니까
+

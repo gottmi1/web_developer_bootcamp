@@ -1,0 +1,88 @@
+forEach는 for of 와 비슷한 역할을 한다.
+
+const numbers = [1,2,3,4,5]
+머 이런게 있을 떄
+
+numbers.forEach(function(el) {
+  console.log(el);
+})
+이런 식으로 익명함수와 한번에 쓴다고 함
+
+forEach는 최근 문법인 for of가 나왔기 떄문에 사실 자주 쓰이지 않는다.
+
+forEach = 배열이든 객체든 반복해주는 역할을 한다. 인자로 콜백함수를 받는댄다.
+for of, map 다 반복해주는데 굳이 왜 이걸 쓰는걸까?
+
+
+map
+forEach와 같은 동작을 하지만, 매우 다른점이 하나 있는데 amp은 결과를 이용해 그 콜백의 리턴값을 이용한 새로운 배열을 만든다.
+기존 배열로 무언가 새로운 배열을 만들어야 할 때 쓰인다.
+
+
+화살표 함수
+
+대부분 아는 내용임
+매개변수가 하나일 떈 괄호를 생략할 수 있다 머 이런거
+map이나 forEach에 주로 쓰이고 간결하게 만들어준다.
+
+암시적 반환
+const as = x => (x*x);
+이런식으로 반환키워드를 쓸 필요 없는 한 가지만 반환하는 것
+{}를 없애고 대신 ()를 사용한다. ()안에는 return이 들어가면 안됨.
+암시적 반환은 코드를 짧게 만드는데 유효함.
+const asd = x => x*2;
+괄호를 빼도 됨. 하지만 코드가 좀 길어지면 괄호를 추가해서 가독성을 높이는 게 좋음
+암시적 반환은 함수 안에 하나의 실행구문과 표현이 있을 떄만 작동한다. 무엇을 retrun해야 할지 모르기 떄문
+
+
+setInterval과 setTimeout
+
+setTimeout
+
+setTimeout(() => {
+  console.log("hello");
+}, 3000)
+
+두번째 인자의 값만큼 기다린 후 한번 실행
+
+setInterval 
+
+두번쨰 인자의 값의 주기 마다 실행
+한 번 실행되면 계속해서 반복하기 때문에 clearInterval을 주기 위해 항상 변수로 선언한다.
+
+const id = setInterval(() => {
+  asdasdasd;
+},500)
+
+id < 실행
+clearInterval(id)멈춤
+
+filter
+
+filter로 거른다고 생각하면 편함 return의 조건의 맞는 값만 찾아서 새로운 배열로 반환한다 = 조건이 true인 경우만을 새로운 배열로 받는다
+
+
+some , every
+
+진실 혹은 거짓만을 반환한다.
+배열 안의 모든 요소가 진실로 반환되면 every는 true값을 얻는다.
+반대로 하나라도 false면 false가 됨
+some은 배열 안의 요소 중 하나라도 true라면 true를 반환하다.
+
+
+reduce
+
+어떤 배열을 가져가 최종적으로 하나의 값으로 축소시키는 역할을 함.
+for of와 비슷한 동작을 한다.(배열 전체를 순환하는)
+evens = [2,4,6,8]
+evens.reduce((sum, num) => sum + num);
+이 경우 20을 반환함.
+근데 reduce는 두번째 매개변수로 초기값을 줄 수가 있다.
+evens.reduce((sum, num) => sum + num, 100);
+이렇게 주면 결과값이 120이 됨.
+
+
+화살표함수와 this
+
+this는 화살표함수에서 다르게 행동한다...
+기본적으로 window를 참조하는 상태

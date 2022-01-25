@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    const num = [1, 2, 3, 4, 5];
+
+    const nums = num.map((x) => {
+      return x * 2;
+    })
+    console.log(nums);
+
+    // DO NOT ALTER THE FOLLOWING CODE:
+    const fullNames = [{
+      first: 'Albus',
+      last: 'Dumbledore'
+    }, {
+      first: 'Harry',
+      last: 'Potter'
+    }, {
+      first: 'Hermione',
+      last: 'Granger'
+    }, {
+      first: 'Ron',
+      last: 'Weasley'
+    }, {
+      first: 'Rubeus',
+      last: 'Hagrid'
+    }, {
+      first: 'Minerva',
+      last: 'McGonagall'
+    }, {
+      first: 'Severus',
+      last: 'Snape'
+    }];
+
+    // Write your code here
+
+    const firstNames = fullNames.map(a => a.first); // fullNames 안에 있는 인자를 a로 받고 거기서 first를 찾음
+
+
+    console.log(firstNames);
+
+    const greet = (x) => {
+      return console.log(`Hey ${x}!`);
+    }
+    greet("Hegrid");
+
+    function validUserNames(x) {
+      const z = x.filter(y => y.length < 10)
+      console.log(z);
+    }
+
+    validUserNames(["asfasfs", "a", "dgdfgsdfgsfdgsdfg", "fdgsdfg"])
+
+
+    const allEvens = (x) => {
+      const z = x.every(y => y % 2 === 0);
+      return z;
+    }
+
+    allEvens([2, 4, 6, 8]);
+    allEvens([1, 4, 6, 8]);
+
+    const movies = [{
+      score: 70
+    }, {
+      score: 80
+    }, {
+      score: 40
+    }, {
+      score: 20
+    }, {
+      score: 10
+    }, {
+      score: 60
+    },{
+      score: 5
+    } ]
+
+    const bestestMovies = movies.reduce((bestMovie, currentMovie) => {
+      if (bestMovie.score < currentMovie.score) { // 앞 뒤 요소를 비교하고 조건에 맞는 값을 앞 요소로 다시 되돌림
+        return currentMovie; // 뒷요소가 더 클경우 bestMovie(앞 요소)에 currentMovie(뒷 요소)의 값을 담는다
+      } // 계속 반복하다가 마지막 요소와 비교함 이때 마지막 요소가 더 크면 또 앞 요소에 담음
+      return bestMovie; // 앞 요소를 반환
+      // return currentMovie;을 할 경우 그냥 마지막 요소가 리턴됨
+    })
+    // 너무 헷갈린다 그냥 첫 요소가 두번째 요소보다 클 경우 최소값, 첫 요소가 두번째 요소보다 작을 경우 최대값 반환으로 외우는게 편할듯..
+
+    console.log(bestestMovies);
+
+  </script>
+</body>
+
+</html>

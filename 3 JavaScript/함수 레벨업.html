@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    let a = "으아으아";
+
+    function asdf() {
+      // a = "으엉으엉"
+      console.log("asd" + a);
+    }
+    asdf();
+    console.log(a);
+
+
+    const square = function (x) {
+      return x ** 2;
+    }
+
+    console.log(square(4));
+
+
+    const hen = {
+      name: "Helen",
+      eggCount: 0,
+      layAnEgg: function () {
+        this.eggCount++
+        return "EGG";
+      }
+    }
+
+    console.log(hen.name);
+    hen.layAnEgg();
+    hen.layAnEgg();
+    console.log(hen.eggCount);
+  </script>
+</body>
+
+</html>
