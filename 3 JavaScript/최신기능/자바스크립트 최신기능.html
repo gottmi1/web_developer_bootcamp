@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    const nums = [11, 2, 3, 4, 5, 6, 6, 3, 35, 35, 35, 35];
+
+    console.log(Math.max(nums)); // NaN nums = Arr이기 때문
+    console.log(Math.max(...nums)); // 제대로 된다
+
+    console.log(nums); // 숫자가 들어간 배열
+    console.log(...nums); // 배열이 사라지고 숫자만 남음
+
+    console.log(..."hello"); // hello를 분해시켜 h e l l o 로 받음
+
+    const feline = {
+      legs: 4,
+      family: 'Felidae'
+    };
+    const canine = {
+      isFurry: true,
+      family: "Caniane"
+    };
+
+    const felineBlack = {
+      ...feline,
+      colr: "black"
+    }
+    console.log(felineBlack);
+
+    const catDog = {
+      ...feline,
+      ...canine
+    }
+    console.log(catDog); // 이 경우 famliy속성이 겹치는데 겹치는 부분은 뒤에 온 객체의 속성을 따라감.
+
+    // function sum(...num) {
+    //   console.log(nums);
+    // }
+
+
+    function sum(...num) {
+      console.log(num.reduce((nums, el) => nums + el));
+    }
+
+    sum(1, 2, 23, 3, 2, 4, 35, 3523, 52352, 3523, 5235, 235, 23, 523, 5);
+
+
+    function goldMedal(gold, silver, bronze, ...other) {
+      console.log(`금메달은 ${gold}`)
+      console.log(`은메달은 ${silver}`)
+      console.log(`동메달은 ${bronze}`)
+      console.log(`목메달은 ${other}`)
+    }
+
+    goldMedal("골드","실버","브론즈","아이언","비아이")
+
+    const obj = {
+      a : "dsd",
+      b: "dfsdf",
+      c: "gfsdg",
+      d: "ffsdg",
+      e: "efsdg",
+      f: "dfsdg",
+      g: "cfsdg",
+      h: "bfsdg",
+      i: "afsdg",
+    }
+
+    console.log(obj);
+
+    // 객체를 디스쳐럭터링 할 땐 객체와 마찬가지로 중괄호를 사용함
+    const {a,i : wtf} = obj;
+    console.log(a);
+    console.log(wtf);
+
+  </script>
+</body>
+
+</html>
