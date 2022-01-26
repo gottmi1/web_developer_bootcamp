@@ -26,3 +26,44 @@ btn.onmouseenter = asd;
 
 이벤트와 this
 
+이벤트에선 콜백 함수를 쓸 때 하나씩 지정하는 것 보다 this를 써놓는 게 편하다.
+
+for (let btn of buttons) {
+  btn.addEventListener('click', colorize)
+}
+for (let h1 of h1s) {
+  h1.addEventListener('click', colorize)
+}
+
+function colorize() {
+  this.style.background = "red";
+  this.style.color = "blue";
+}
+
+이런식으로 콜백할 때 자기 자신을 선택할 수 있게 해줌
+
+키보드 이벤트와 이벤트 객체
+
+event.code = keyA 이런식으로 어떤 키인지 알려줌(무조건 대문자로 알려줌)
+evnet.key = a, b, c, d 이런식으로 알려줌
+이벤트 객체는 모든 이벤트 핸들러에서 엑세스할 수 있다.
+
+폼 이벤트와 preventdefault();
+
+preventdefault는 기본 동작을 막는다
+submit의 새로고침, 앵커의 링크 태그의 기본 동작을 막을 수 있음
+
+이벤트 버블링
+
+sec>div>btn 이런식으로 이벤트가 여러 계층에 걸쳐 걸려있을 경우 자식이벤트가 실행될때 모든 부모 이벤트도 실행되는 걸 이벤트 버블링이라고 한다.
+
+e.stopPropagation();를 사용하면 이벤트 버블링을 막을 수 있다
+
+
+이벤트 위임
+
+ul같은 상위 컨테이너에 이벤트를 걸면, 이벤트가 걸린 건 상위 컨테이너지만 target은 클릭한 자식을 가리키게 된다.
+
+상관 없는 거 : e.target.nodeName === 'LI' && e.target.remove();
+이런 식으로 사용할 수도 있는데 boolean에서 왼쪽이 거짓이면 오른쪽 작업은 반복되지 않는다.
+이 코드는 클릭 한 타겟의 nodeName 속성이 Li일 떄만 삭제 하라는 것. 저 조건을 뺴면 ul안에 있는게 뭐든지 삭제된다.
