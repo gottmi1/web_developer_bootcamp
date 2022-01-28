@@ -1,0 +1,52 @@
+api
+
+어플리케이션 프로그래밍 인터페이스의 줄임말
+
+json
+
+자바
+스크립트
+오브젝트
+노테이션
+의 줄임말
+
+데이터를 직렬화하여 전송하는 포맷
+
+JSON.parse() = 괄호 안에 들어 있는 JSON객체를 자바스크립트에서 사용할 수 있도록 변환해주는 역할
+
+200 201 202 203 등
+2로 시작하는 상태코드는 대체로 성공을 의미함
+404은 낫파인드인데
+이렇듯 4로 시작하는 상태코드는 클라이언트 에러를 의미함
+5는 서버에러 
+
+XMLHttpRequest();
+
+fetch전에 쓰던 방식.
+.onload와 .onerror를 사용함.
+이제 안씀
+
+fetch API
+
+XMLHttpRequest을 더 쉽게 할 수 있는 promise 기반의 새로운 방식.
+접근 가능한 url로 써놓으면 기본적으로 resolve 상태임.
+접근할 수 없는 url을 받는다면 reject가 됨
+이 시점에서 응답 객체는 있지만 거기에 다루고자하는 데이터는 없다.
+res.json, err.json등으로 데이터를 받아와야 함
+
+
+Axios
+
+기본 promise로 받아온다.
+axios.get('url')을 사용하면 fetch에서 했던 retrun res.json()없이도 바로 데이터로 쓸 수 있는 것 같음
+
+페치 = 페치콜을 하면 promise를 리턴하는데 파싱되지 않은 불완전한 리턴이다. 그래서 .json()으로 파싱해줘야 하는데 axios를 쓰면 그럴 필요가 없어 코드를 줄일 수 있음.
+
+
+헤더세팅
+
+API마다 json을 응답받기 위해 따로 정해놓은 틀이 있다.
+dadjoke의 경우 json을 받으려면 url에 application/json을 추가해야함
+const config = { headers : { Accpet : 'url'};
+이런식으로 객체로 만들고
+await axios.get('https://icanhazdadjoke.com/', config) 해서 header로 달아줄 수 있다. 변수를 안 쓰고 그냥 길게 써도 되지만 가독성이 구려짐
