@@ -1,0 +1,122 @@
+프로토타입
+
+요소에는 __proto__라는 속성이 있는데, 여기엔 sort,reduce,push 등 필요한 메서드들이 들어있다.
+
+String.prototype 이런식으로 앞글자 대문자 후 프로토타입 하면 해당 메서드들이 나옴 새 메서드를 추가할 수도 있음.
+
+기본적으로 요소마다 다른 프로토를 갖는데, 같은 프로토를 공유하는 다수의 객체를 생성할 수도 있다.
+
+__proto__와 prototype의 차이
+
+.prototype은 메서드 혹은 속성을 추가하는 실제 객체이다.
+템플릿 객체이자 프로토타입
+__proto___는 참조이다 이걸 써서 뭘 하는 일은 거의 없을것이라고 함.
+
+
+객체지향 프로그래밍 개요
+
+클래스라는 쿠키커터로 같은 요소를 지니는 객체들을 찍어내는 것 같음
+
+
+factory function 
+
+  function hex(r, g, b) {
+		return (
+			'#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+		);
+	};
+
+  function rgb (r, g, b) {
+		return `rgb(${r}, ${g}, ${b})`;
+	};
+
+  이런 두 함수가 있을 떄 팩토리 기능을 사용할 수 있다.
+  hex메서드와 rgb메서드를 가진 객체를 만들어주고 r g b값들을 값이나 프로퍼티로 객체에 저장해준다
+
+  function makeColor(r ,g,b){
+    const color = {};
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    return color;
+  }
+
+  이렇게 만들어준 후 makeColor(33,33,33);
+  해주면 {r: 33, g: 33, b: 33} 객체를 반환함.
+  여기서 makeColor안에 메서드를 추가할 수 있다.
+
+    function makeColor(r ,g,b){
+    const color = {};
+    color.r = r;
+    color.g = g;
+    color.b = b;
+    function() {
+		const { r, g, b } = this;
+		return `rgb(${r}, ${g}, ${b})`;
+	}; 디스쳐럭터링으로 r,g,b를 this.r,g,b로 묶어준 후 값을 템플릿 리터럴로 리턴함. 리스쳐럭터링은 안해도 되는데 그러면 리턴값을 `rgb(${this,r}, ${this.g}, ${this.b})`;로 해야해서 좀 지저분해짐.
+  color.hex = function() {
+		const { r, g, b } = this;
+		return (
+			'#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+		);
+	}; 객체에 저장해서 color로 const해서 retrun해주기 떄문에 함수에 매개변수를 넣지 않아도 된다.
+  여기서 this는 color 객체를나타낸다. 지금까지 추가한 이 객체 전체임.
+    return color;
+  }
+
+  이 함수는 아무것도 없이 시작해서 주어진 인수를 프로퍼티로 추가하고 rgb,hex 2개으 메서드를 추가하고 color 객체로 리턴해준다. 패턴과 레시피를 기반으로 객체를 구축하는 하나의 방법.
+  makeColor(0,0,0)
+  이렇게 새로운 객체를 찍어낼 수 있다.
+
+
+생성자 함수
+
+팩토리펑션은 쓸만하지만 주로 사용되지는 않는다.
+주로 사용되는 건 생성자 패턴이나 함수인데 왜 그런지 알아볼거임
+
+new = 패턴에 따라 새로운객체를 만들어준다
+
+위에서 만든 팩토리함수로 만든 두 객체 black과 firstColor를 비교해보면
+black.hex === firstColor.hex // false가 뜸
+이건 둘이 같은 function을 나타내고 있는지 체크하는 용도인데 둘은 다르다.
+"hi".slice === "bye".slice // true
+
+생성자함수는 첫글자를 대문자로 시작하는데 이건 그냥 평범한 function이 아니라는 걸 나타내는 방식이다.
+function Color(r, g, b) {
+	this.r = r;
+	this.g = g;
+	this.b = b;
+}
+여기서 this를 사용하면 유효범위를 참조하며 가장 가까운 객체인 window를 나타낸다.
+하지만 new 연산자를 사용하면 평범한 this를 갖게 됨
+new Color(0,0,0)으로 새 객체를 만들 수 있다.
+이렇게 만들어진 객체는 constructor를 갖게 되는데 이 경우 Color(r,g,b)를 갖는다
+이를 통해 메서드를 개별 객체로 만들지 않고 인스턴스가 아닌 프로토타입에 추가할 수 있게 됐다.
+
+생성자 함수 = new 로 찍어낼 수 있게끔 만들어놓은 함수
+
+정리하자면 팩토리펑션은 각각 메서드를 가질 뿐인데 생성자함수는 prototype에 arr.pop처럼 기본 메서드를 내장하는 것
+color1.hex === color2.hex // true임
+
+
+class
+
+ class 이름 {
+   cunstructor(a,b,c,d){
+     this.a = a;
+     this.b = b;
+     this.c = c;
+     this.d = d;
+   }
+   이떄 여기 들어가는 함수들은 모두 __proto__에 들어가게 됨
+   greet() {
+     return "hello";
+   } 이런거
+ }
+
+ 했을 떄
+
+ new 이름(1,2,3,4)
+ 하면 자동으로 this의 값에 모든게 저장된다
+ 프로퍼티에 추가하고 인수 혹은 매개변수로 설정한다.
+
