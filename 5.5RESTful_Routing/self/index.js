@@ -4,10 +4,10 @@ const path = require("path");
 const { v4: uuid } = require("uuid");
 const methodOverride = require("method-override");
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true })); // 이중 객체로 받는거 허용하나 안하나
 app.use(express.json());
 app.use(methodOverride("_method"));
-// 요청마다 코드나 기능을 실행하는 방법
+// app.use 요청마다 코드나 기능을 실행하는 방법
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
