@@ -22,12 +22,12 @@ const movieSchema = new mongoose.Schema({
 });
 
 const Movie = mongoose.model("Movie", movieSchema);
-// const amadeuse = new Movie({
-//   title: "amadeuse",
-//   year: 1986,
-//   score: 9.2,
-//   rating: "R",
-// });
+const amadeuse = new Movie({
+  title: "amadeuse",
+  year: 1986,
+  score: 9.2,
+  rating: "R",
+});
 
 // const blah = new Movie();
 // blah.save();
