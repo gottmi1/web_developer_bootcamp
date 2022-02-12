@@ -1,0 +1,49 @@
+show 데이타베이스명 
+보여줌
+use 데이타베이스명
+만듬. 만든 후 무언가를 insert하지 않으면 그냥 사라진다
+
+bson 
+db를 json형식으로 볼 수 있게 해줌
+
+데이터 삽입하는 법(3가지가 있음)
+db.docu.insertOne()
+하나의 객체만 넣을 수 있음
+만들면 고유한 "_id"가 부여됨
+
+db.docu.insertMany()
+잘 안 씀
+
+db.docu.insert()
+자유롭게 넣을 수 있음 위의 두 종류는 사용할 필요 없이 이것만 사용하면 되는듯
+
+show collections로 해당 데이타베이스 안에 있는 폴더들을 볼 수 있음
+
+db.docu.find()로 해당 컬렉션 안에 모든 객체를 불러올 수 있음.()안에 조건을 넣으면 조건에 해당하는 것만 가져옴
+db.docu.findOne()은 하나만 가져옴
+
+db.docu.updateOne() 조건에 맞는 첫번째 항목만 업데이트
+두 개의 객체를 갖는데 첫 객체는 조건이고, 두번째 객체는 업데이트 할 요소이다.
+업데이트 할 요소객체는 $set{}로 묶어야함.
+결과적으로 db.docu.updateOne({name:"aa"},{$set:{age:99}}) 이런 형식이 됨
+이 떄 $set에 전에 없던 값을 넣으면 새 값을 갖게 된다.
+
+db.docu.updateMany() 조건에 맞는 걸 다 업데이트
+
+db.docu.deleteOne() 
+db.docu.deleteMany()
+삭제 함. 다른 메서드들과 똑같이 작동함 
+db.docu.deleteMany({})는 전체 삭제
+
+그 외  mongo 연산자
+
+$gt : number 
+number 보다 높은 것만 찾겠다 <==> $lt : number
+db.douc.find({abc : {$in ["a","b"]}})
+조건 : abc 값이 a나 b인 것만 찾겠다
+$nin 
+조건 : 같지 않은 걸 찾겠다
+혼자 사용하면 거의 쓸모가없지만 여러 조건중에 넣으면 쓸모 있을 수도 있음
+$or
+db.docu.find({$or : [{a:true},{b:false}]}) 
+이런식으로 사용가능
