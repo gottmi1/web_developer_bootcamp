@@ -23,7 +23,7 @@ const productSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
-    min: 0,
+    min: [0, "가격은 양수여야 해요"], // 해당 조건을 충족하지 않을때의 에러메세지를 직접 정한다
   },
   onSale: {
     type: Boolean,
@@ -45,22 +45,76 @@ const productSchema = new mongoose.Schema({
       default: 0,
     },
   },
+  size: {
+    type: String,
+    enum: ["S", "M", "L"], // 유효한 값의 그룹을 지정해줄 수 있다
+  },
 });
+
+productSchema.methods.greet = function () {
+  console.log(`- ${this.name}`);
+};
+
+productSchema.methods.toggleOn = function () {
+  this.onSale = !this.onSale;
+  return this.save();
+};
+
+productSchema.methods.addCategory = function (newCat) {
+  this.categories.push(newCat);
+  return this.save();
+};
+
+productSchema.methods.removeCategory = function () {
+  this.categories.pop();
+  return this.save();
+};
 
 const Product = mongoose.model("Product", productSchema);
 
-const bike = new Product({
-  name: "Mountain Bike",
-  price: "599", // 문자열로 전달해도 숫자면 상관없음
-  categories: ["Safety", "Cycling"],
-});
-bike
-  .save()
-  .then((data) => {
-    console.log("it worked!");
-    console.log(data);
-  })
-  .catch((err) => {
-    console.log("oh no error!");
-    console.log(err);
-  });
+productSchema.statics.fireSale = function () {
+  return this.updateMany({}, { onSale: ture, price: 0 });
+};
+
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({ name: "Mountain Bike" });
+  console.log(foundProduct);
+  await foundProduct.toggleOn();
+  console.log(foundProduct);
+  await foundProduct.addCategory("good...");
+  console.log(foundProduct);
+};
+
+// findProduct();
+Product.fireSale().then((res) => console.log(res));
+
+// const bike = new Product({
+//   name: "Mountain Bike",
+//   price: "59.9", // 문자열로 전달해도 숫자면 상관없음
+//   categories: ["Safety", "Cycling"],
+//   size: "S",
+// });
+// bike
+//   .save()
+//   .then((data) => {
+//     console.log("it worked!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("oh no error!");
+//     console.log(err);
+//   });
+
+// Product.findOneAndUpdate(
+//   { name: "Mountain Bike" },
+//   { price: -100 },
+//   { new: true, runValidators: true }
+// )
+//   .then((data) => {
+//     console.log("it worked!");
+//     console.log(data);
+//   })
+//   .catch((err) => {
+//     console.log("oh no error!");
+//     console.log(err);
+//   });

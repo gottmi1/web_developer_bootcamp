@@ -21,3 +21,29 @@ name : {
 }
 이렇게 하면 유효성 검사에 더 좋다
 
+Mongoose는 따로 설정하지 않으면 업데이트할 때 유효성 검사를 하지 않는다.
+runValidtors : ture로 해주면 업데이트할 때도 앞서 설정해 놓은 유효성 검사를 한다.
+
+인스턴스 메소드
+
+a.methods.메소드명 = function() {}으로 해당 스키마에 메소드를 추가할 수 있다. this를 사용하는 경우가 많기 떄문에 화살표함수는 쓰지 않는다.
+
+productSchema.methods.toggleOn = function () {
+  this.onSale = !this.onSale;
+  return this.save();
+};
+
+이렇게 인스턴스 메소드를 생성해 준 후에
+
+const findProduct = async () => {
+  const foundProduct = await Product.findOne({ name: "Mountain Bike",onSale = false });
+  console.log(foundProduct);
+  await foundProduct.toggleOn();
+  console.log(foundProduct);
+};
+
+이렇게 해주면 첫 번째 console.log에는 onSale = false로 나오고 두번째 console.log에는 onSale = true로 나옴
+
+버츄얼
+
+데이터베이스에는 존재하지않고 자바스크립트,몽구스에만 존재함.
