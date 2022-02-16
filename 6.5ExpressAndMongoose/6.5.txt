@@ -1,0 +1,15 @@
+<%=product.category === category ? 'selected' : ''%>>
+
+태그의 속성값에 주는 값. product.category와 category(따로 설정됨)이 같다면 selected를 추가하고 없으면 비우라는 뜻
+
+<select name="category" id="category">
+      <!-- 이렇게 루프를 설정해 놓으면 index.js에서 하드코딩한 categories 배열에 다른 것이 들어와도 해당 요소를 자동으로 생성해주기 때문에 편리하다.유효성 검사중이라면 enum에도 추가해줘야 함) -->
+      <% for(let category of categories) {%>
+        <option value="<%=category%>" <%=product.category === category ? 'selected' : ''%>><%=category%></option>
+      <% } %>
+    </select>
+
+  
+삭제는 POST요청이야아 하고, ?_method=를 사용해야하기 떄문에 form으로 작업해준다.
+
+async, await 비동기를 사용하지 않으면 CRUD되지 않는다.
