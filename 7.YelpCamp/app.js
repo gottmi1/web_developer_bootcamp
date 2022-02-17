@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const Campground = require("./models/Campground");
 const { urlencoded } = require("express");
@@ -20,6 +21,7 @@ async function main() {
 
 const app = express();
 
+app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 // 기본 폴더 경로를 views/ 로 만들기 위한 작업

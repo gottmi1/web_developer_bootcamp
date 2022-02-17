@@ -1,0 +1,45 @@
+ejs-mate = 레이아웃 파일을 정의해서 컴포넌트처럼 쓸 수 있다
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>boilerplate!!</title>
+</head>
+<body>
+
+  <h1>before</h1>
+  <%-body-%>
+  <h1>after</h1>
+
+</body>
+</html>
+
+이렇게 설정해 놓고,
+다른 ejs파일들에 body를 포함한 위,아래를 다 지우고 
+<%-body-%> 이런식으로 넣으면 다른 ejs 파일들이 여기에 삽입됨.
+
+<% layout("layout/boilerplate") %>      ----------이렇게 하면 여기 있는 모든 코드를 <%-body-%>에 넣는 효과가 있다.
+  <h1>All Campgrounds</h1>
+  <div>
+    <a href="campgrounds/new">Add Campground</a>
+  </div>
+  <ul>
+    <% for(let campground of campgrounds) {%>
+      <li><a href="campgrounds/<%=campground._id%>"><%=campground.title%></a></li>
+      <!-- <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+        <button>Delete</button>
+      </form> -->
+    <% } %>  
+  </ul>
+
+
+ejs 컴포넌트화
+
+코드가 길어지는 걸 방지하기 위해 하나하나 컴포넌트로 만들어서 쓸 수 있다.
+
+  <%- include("../partials/navbar")%>
+
+include()는 상대경로를 사용해야 한다.
