@@ -1,0 +1,28 @@
+에러핸들링을 미들웨어로 쓰려면
+app.use((err,req,res,next) => {})
+이와 같이 4개의 매개변수를 받아야한다. 이렇게 정의하면 에러 핸들링 미들웨어가 됨.
+
+async 함수의 에러 핸들링
+
+app.put("/products/:id", async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndUpdate(id, req.body, {
+      runValidators: true,
+    });
+    // console.log(req.body);
+    res.redirect(`/products/${product._id}`);
+  } catch (e) {
+    next(e);
+  }
+});
+
+try부분에 원래 실행해야 할 코드를 놓고 catch(e) {next(e)}를 하면 됨
+next(e)를 하면
+
+app.use((err, req, res, next) => {
+  const { status = 500, message = "에러났음" } = err;
+  res.status(status).send(message);
+});
+
+얘가 실행된다.
