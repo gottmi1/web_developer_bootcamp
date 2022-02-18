@@ -1,17 +1,28 @@
 <% layout("layout/boilerplate") %> 
-  <h1><%= campground.title %> </h1>
-  <h2><%= campground.location %> </h2>
+  <!-- <h1 class="text-center"><%= campground.title %> </h1>
+  <h2 class="text-center"><%= campground.location %> </h2> -->
 
-  <p>
-    <a href="/campgrounds/<%=campground._id%>/edit">캠핑장 수정</a>
-  </p>
-
-  <p>
-    <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
-      <button>Delete</button>
-    </form>
-  </p>
-
-  <footer>
-    <a href="/campgrounds">뒤로</a>
-  </footer>
+  <div class="row">
+    <div class="col-6 offset-3">
+      <div class="card mb-3">
+        <img src="https://images.unsplash.com/photo-1500221079655-3cb71a299f6c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title"><%= campground.title %></h5>
+          <p class="card-text"><%= campground.description %></p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-center text-muted"><%=campground.location%></li>
+          <li class="list-group-item text-center"><b><%=campground.price%> 만원 / 박</b></li>
+        </ul>
+        <div class="card-body text-center">
+          <a class="card-link btn btn-info" href="/campgrounds/<%=campground._id%>/edit">캠핑장 수정</a>
+          <form class="d-inline" action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST">
+            <button class="btn btn-danger">캠핑장 삭제</button>
+          </form>
+        </div>
+        <div class="card-footer text-center">
+          <a class="card-link btn btn-primary" href="/campgrounds">뒤로</a>
+          </div>
+      </div>
+    </div>
+  </div>
