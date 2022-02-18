@@ -116,8 +116,9 @@ app.use(methodOverride("_method"));
 
 const categories = ["fruit", "vegetable", "dairy"];
 
-app.get("/products", async (req, res, next) => {
-  try {
+app.get(
+  "/products",
+  wrapAsync(async (req, res, next) => {
     const { category } = req.query;
     if (category) {
       const products = await Product.find({ category: category });
@@ -126,10 +127,8 @@ app.get("/products", async (req, res, next) => {
       const products = await Product.find({});
       res.render("products/index", { products, category: "All" }); // 디폴트 값을 설정해줘서 카테고리가 없을 때 all이 보이게 한다
     }
-  } catch (e) {
-    next(e);
-  }
-}); // 카테고리가 있는 경우, 해당 카테고리를 포함한 것만 출력, else(카테고리가 없을 때) 모두 출력
+  })
+); // 카테고리가 있는 경우, 해당 카테고리를 포함한 것만 출력, else(카테고리가 없을 때) 모두 출력
 
 app.get("/products/new", (req, res) => {
   // throw new AppError("권한이없다굿", 401);
@@ -137,33 +136,41 @@ app.get("/products/new", (req, res) => {
 });
 
 // Create
-app.post("/products", async (req, res, next) => {
-  try {
+app.post(
+  "/products",
+  wrapAsync(async (req, res, next) => {
     const newProduct = new Product(req.body);
     await newProduct.save();
     // console.log(newProduct);
     res.redirect(`/products/${newProduct._id}`);
-  } catch (e) {
-    next(e);
-  }
-});
+  })
+);
 
-app.get("/products/:id", async (req, res, next) => {
-  try {
+function wrapAsync(fn) {
+  // 매개변수 fn은 일반적으로 함수를 매개변수로 받겠다는 의미로 쓰인다.
+  return function (req, res, next) {
+    fn(req, res, next).catch((e) => next(e));
+  };
+}
+// 상당히 어려운 수준이라고 함. 요점은 함수를 만들어서 async 콜백을 wrap하여 try,catch를 매번 타이핑하지 않을 수도 있다는 것.
+// 동작 : 에러가 있으면 catch를 추가하고 next를 호출
+// Express에서 모든 async함수는 반드시 try catch next를 해야만 하기때문에 이해하진 못해도 머리속에 집어넣어야 한다고 한다.
+app.get(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
       throw AppError("show 그런건 없다", 404);
     }
     res.render("products/show", { product });
-  } catch (e) {
-    next(e);
-  }
-});
+  })
+);
 
 //Edit form
-app.get("/products/:id/edit", async (req, res, next) => {
-  try {
+app.get(
+  "/products/:id/edit",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findById(id);
     if (!product) {
@@ -171,36 +178,45 @@ app.get("/products/:id/edit", async (req, res, next) => {
       throw AppError("eidt 그런건 없다", 404);
     }
     res.render("products/edit", { product, categories });
-  } catch (e) {
-    next(e);
-  }
-});
+  })
+);
 
 // Update
-app.put("/products/:id", async (req, res, next) => {
-  try {
+app.put(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const product = await Product.findByIdAndUpdate(id, req.body, {
       runValidators: true,
     });
     // console.log(req.body);
     res.redirect(`/products/${product._id}`);
-  } catch (e) {
-    next(e);
-  }
-});
+  })
+);
 // 비동기 에러핸들링 방법 2 try&catch를 사용하는 방법
 
 // Delete
-app.delete("/products/:id", async (req, res, next) => {
-  try {
+app.delete(
+  "/products/:id",
+  wrapAsync(async (req, res, next) => {
     const { id } = req.params;
     const deletedProduct = await Product.findByIdAndDelete(id);
     // console.log(req.params);
     res.redirect("/products");
-  } catch (e) {
-    next(e);
+  })
+);
+
+const handleValidateionErr = (err) => {
+  console.dir(err);
+  return new AppError(`에러가났다 에러가났어${err.message}`, 400);
+};
+
+app.use((err, req, res, next) => {
+  console.log(err.name);
+  if (err.name === "ValidationError") {
+    err = handleValidateionErr(err);
   }
+  next(err);
 });
 
 app.use((err, req, res, next) => {
