@@ -20,14 +20,14 @@ const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
   await Campground.deleteMany({});
-  // 이 파일을 node할 때 마다 전에 있던 데이터베이스는 비워준다
+  // 이 파일을 node할 때마다 전에 있던 데이터베이스는 비워준다
   for (let i = 0; i < 50; i++) {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 25);
     const camp = new Campground({
       location: `${cities[random1000].city} , ${cities[random1000].state}`,
       title: `${sample(descriptors)}, ${sample(places)}`, // sample은 함수임. 단순히 배열을 인자로 받아서 랜덤으로 던져주는 일을 함
-      image: "https://unsplash.com/collections/483251",
+      image: "https://source.unsplash.com/collection/483251",
       description:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur, dolores vitae nulla consequatur voluptatum assumenda iure, eaque corrupti aspernatur quisquam facere reiciendis praesentium labore blanditiis doloribus omnis nobis consectetur. Cumque.",
       price: price,
