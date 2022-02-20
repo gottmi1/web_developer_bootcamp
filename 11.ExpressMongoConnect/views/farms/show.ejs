@@ -22,5 +22,8 @@
 
   <a href="/farms">All farms</a>
   <a href="/farms/<%=farms._id%>/products/new">add products</a>
+  <form action="/farms/<%=farms._id%>?_method=DELETE" method="post">
+    <button>농장 삭제</button>
+  </form>
 </body>
 </html>
