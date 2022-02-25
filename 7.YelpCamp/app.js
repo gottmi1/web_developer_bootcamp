@@ -2,6 +2,8 @@ const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
 const ejsMate = require("ejs-mate");
+const session = require("express-session");
+const flash = require("connect-flash");
 const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
@@ -36,6 +38,26 @@ app.set("views", path.join(__dirname, "views"));
 app.use(urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public"))); // 적용할 js파일들의 기본 경로를 정해주기위함.
+const sessionConfig = {
+  secret: "jinwon",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: +1000 * 60 * 60 * 24 * 7,
+  },
+};
+app.use(session(sessionConfig));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.del = req.flash("del");
+  res.locals.update = req.flash("update");
+  res.locals.error = req.flash("error");
+  next();
+});
 
 app.use("/campgrounds", campgrounds); // 경로가 이렇게 간단할 땐 Router({mergeParams : true})가 필요없지만
 app.use("/campgrounds/:id/reviews", reviews); // 기본 경로에 id가 포함된 이런 상황에선 필요한 듯 함
