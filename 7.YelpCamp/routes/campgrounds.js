@@ -4,6 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/Campground");
 const { campgroundSchema } = require("../schemas.js");
+const { isLoggedIn } = require("../middleware");
 
 // --------------------미들 웨어
 const validateCampground = (req, res, next) => {
@@ -27,13 +28,14 @@ router.get(
   })
 );
 
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
   res.render("campgrounds/new");
 });
 // campgrounds/:id 아래에 두면 new를 id로 인식하기 때문에 위에둬야 함.
 
 router.post(
   "/",
+  isLoggedIn,
   validateCampground, // 앞서 만든 미들웨어 함수
   catchAsync(async (req, res, next) => {
     // 몽구스에 throw된 에러가 발생하면 catchAsync가 이를 catch하여 next에 전달함
@@ -63,6 +65,7 @@ router.get(
 
 router.get(
   "/:id/edit",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
@@ -77,6 +80,7 @@ router.get(
 
 router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -90,6 +94,7 @@ router.put(
 
 router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);

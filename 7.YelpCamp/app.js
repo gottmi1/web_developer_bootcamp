@@ -10,10 +10,14 @@ const ExpressError = require("./utils/ExpressError");
 const methodOverride = require("method-override");
 const Campground = require("./models/Campground");
 const Review = require("./models/review");
+const User = require("./models/User"); // overwirteModelError가 나서 user => User로 수정하니 해결 됨
 const { urlencoded, application } = require("express");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
 
-const campgrounds = require("./routes/campgrounds");
-const reviews = require("./routes/reviews");
+const userRoutes = require("./routes/users");
+const campgroundRoutes = require("./routes/campgrounds");
+const reviewRoutes = require("./routes/reviews");
 
 main()
   .then(() => {
@@ -48,10 +52,19 @@ const sessionConfig = {
     maxAge: +1000 * 60 * 60 * 24 * 7,
   },
 };
+
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session()); // app.use(session(sessionConfig)); 보다 아래에 있어야 함
+passport.use(new LocalStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+  console.log(req.session);
+  res.locals.currentUser = req.user;
   res.locals.success = req.flash("success");
   res.locals.del = req.flash("del");
   res.locals.update = req.flash("update");
@@ -59,8 +72,19 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/campgrounds", campgrounds); // 경로가 이렇게 간단할 땐 Router({mergeParams : true})가 필요없지만
-app.use("/campgrounds/:id/reviews", reviews); // 기본 경로에 id가 포함된 이런 상황에선 필요한 듯 함
+// 가상으로 유저 만들어보기
+app.get("/fakeUser", async (req, res) => {
+  const user = new User({
+    email: "jin@gmail.com",
+    username: "jinwon",
+  });
+  const newUser = await User.register(user, "asdf"); // asdf는 패스워드임
+  res.send(newUser);
+});
+// 이렇게 하면 hash,salt에 자동으로 해싱된 암호가 들어간다.
+app.use("/", userRoutes);
+app.use("/campgrounds", campgroundRoutes); // 경로가 이렇게 간단할 땐 Router({mergeParams : true})가 필요없지만
+app.use("/campgrounds/:id/reviews", reviewRoutes); // 기본 경로에 id가 포함된 이런 상황에선 필요한 듯 함
 
 app.get("/", (req, res) => {
   res.render("home");
