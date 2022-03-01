@@ -25,6 +25,7 @@ const seedDB = async () => {
     const random1000 = Math.floor(Math.random() * 1000);
     const price = Math.floor(Math.random() * 25);
     const camp = new Campground({
+      author: "621ddb74335684762997a422",
       location: `${cities[random1000].city} , ${cities[random1000].state}`,
       title: `${sample(descriptors)}, ${sample(places)}`, // sample은 함수임. 단순히 배열을 인자로 받아서 랜덤으로 던져주는 일을 함
       image: "https://source.unsplash.com/collection/483251",

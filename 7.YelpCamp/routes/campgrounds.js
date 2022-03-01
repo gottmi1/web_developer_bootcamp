@@ -1,24 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
 const Campground = require("../models/Campground");
-const { campgroundSchema } = require("../schemas.js");
-const { isLoggedIn } = require("../middleware");
-
-// --------------------미들 웨어
-const validateCampground = (req, res, next) => {
-  // 유효성검사를 할 함수를 미들웨어로 만든다.
-  const { error } = campgroundSchema.validate(req.body);
-  if (error) {
-    //result에 error가 존재하면 에러를 throw한다
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 404);
-  } else {
-    // 그렇지 않으면 이 함수의 뒤에 올 함수를 실행시킴
-    next();
-  }
-};
+const { isLoggedIn, validateCampground, isAuthor } = require("../middleware");
 
 router.get(
   "/",
@@ -41,6 +25,7 @@ router.post(
     // 몽구스에 throw된 에러가 발생하면 catchAsync가 이를 catch하여 next에 전달함
     // if (!req.body.campground) throw new ExpressError("유효하지 않은 데이터", 400);
     const campground = new Campground(req.body.campground);
+    campground.author = req.user._id;
     await campground.save();
     req.flash("success", "새로운 캠핑장이 생성되었습니다"); //플래시 생성
     res.redirect(`/campgrounds/${campground._id}`);
@@ -50,9 +35,10 @@ router.post(
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate(
-      "reviews"
-    );
+    const campground = await Campground.findById(req.params.id)
+      .populate({ path: "reviews", populate: "author" })
+      .populate("author");
+    console.log(campground);
     if (!campground) {
       req.flash("error", "캠핑장을 찾을 수 없습니다");
       res.redirect("/campgrounds");
@@ -66,12 +52,13 @@ router.get(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     const campground = await Campground.findById(id);
     if (!campground) {
       req.flash("error", "캠핑장을 찾을 수 없습니다");
-      res.redirect("/campgrounds");
+      return res.redirect("/campgrounds");
       // 한 캠핑장을 북마크에 저장해놓고 삭제하거나 해서 주소가 사라졌을 경우, 에러를 띄우는 대신 campgrounds로 리다이렉트 해주며 error alert를 띄움.
     }
     res.render("campgrounds/edit", { campground });
@@ -81,6 +68,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isAuthor,
   validateCampground,
   catchAsync(async (req, res) => {
     const { id } = req.params;
@@ -95,6 +83,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
