@@ -41,7 +41,7 @@ app.set("views", path.join(__dirname, "views"));
 
 app.use(urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-app.use(express.static(path.join(__dirname, "public"))); // 적용할 js파일들의 기본 경로를 정해주기위함.
+app.use(express.static(path.join(__dirname, "public"))); // 적용할 js,css파일들의 기본 경로를 정해주기위함.
 const sessionConfig = {
   secret: "jinwon",
   resave: false,

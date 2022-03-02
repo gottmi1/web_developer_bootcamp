@@ -11,14 +11,13 @@
           <a class="nav-link" href="/campgrounds/new">New Campgorund</a>
       </div>
     </div>
-    <div class="navbar-nav ml-auto">
+    <div class="navbar-nav ml-auto d-none d-lg-flex">
       <% if(!currentUser) {%> 
       <a href="/login" class="nav-link">로그인</a>
       <a href="/register" class="nav-link">회원가입</a>
       <% } else {%> 
       <a href="/logout" class="nav-link">로그아웃</a>
       <% } %> 
-
     </div>
   </div>
 </nav>

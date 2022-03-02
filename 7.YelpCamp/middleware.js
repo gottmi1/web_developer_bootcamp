@@ -42,8 +42,8 @@ module.exports.validateReivew = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
     //result에 error가 존재하면 에러를 throw한다
-    const msg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(msg, 404);
+    // const msg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError("리뷰 점수를 선택해주세요", 404);
   } else {
     // 그렇지 않으면 이 함수의 뒤에 올 함수를 실행시킴
     next();
