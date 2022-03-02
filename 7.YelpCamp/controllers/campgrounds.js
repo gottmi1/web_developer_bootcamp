@@ -10,11 +10,14 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createCampground = async (req, res, next) => {
-  // 몽구스에 throw된 에러가 발생하면 catchAsync가 이를 catch하여 next에 전달함
-  // if (!req.body.campground) throw new ExpressError("유효하지 않은 데이터", 400);
   const campground = new Campground(req.body.campground);
+  campground.images = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
   campground.author = req.user._id;
   await campground.save();
+  console.log(campground);
   req.flash("success", "새로운 캠핑장이 생성되었습니다"); //플래시 생성
   res.redirect(`/campgrounds/${campground._id}`);
 };

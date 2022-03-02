@@ -9,7 +9,7 @@ module.exports.campgroundSchema = joi.object({
       // 여기에 다양한 key값을 보낼 수 있음.
       title: joi.string().required(),
       location: joi.string().required(),
-      image: joi.string().required(),
+      // image: joi.string().required(),
       price: joi.number().required().min(0),
       description: joi.string().required(),
     })
