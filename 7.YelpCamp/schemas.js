@@ -14,6 +14,7 @@ module.exports.campgroundSchema = joi.object({
       description: joi.string().required(),
     })
     .required(), // campground의 tilte,price,description등이 있다면 body는 campground를 반드시 포함해야하기 때문에 여기서 체크한다.
+  deleteImages: joi.array(),
 });
 
 module.exports.reviewSchema = joi.object({

@@ -2,7 +2,7 @@
 <div class="row">
   <h1 class="text-center">Edit Campground</h1>
   <div class="col-6 offset-3">
-    <form action="/campgrounds/<%=campground._id%>?_method=PUT" class="validated-form" method="post" novalidate>
+    <form action="/campgrounds/<%=campground._id%>?_method=PUT" class="validated-form" method="post" novalidate enctype="multipart/form-data">
       <div class="mb-3">
         <label class="form-label" for="title">Title</label>
         <input class="form-control" type="text" id="title" name="campground[title]" value="<%=campground.title %>" required>
@@ -14,9 +14,20 @@
         <div class="valid-feedback">유효합니다!</div>
       </div>
       <div class="mb-3">
-        <label class="form-label" for="image">Img url</label>
-        <input class="form-control" type="text" id="image" name="campground[image]" value="<%=campground.image%>" required>
-        <div class="valid-feedback">유효합니다!</div>
+        <label class="form-label" for="image">Add Img</label>
+        <input class="form-control" type="file" name="image" id="image" multiple>
+      </div>
+      <div class="mb3-">
+        <% campground.images.forEach((img,i) => { %> 
+          <img src="<%=img.thumbnail%>" class="img-thumbnail" alt="">
+          <!-- 모델에서 추가해준 가상속성을 사용한다 -->
+          <div class="form-check-inline">
+            <input type="checkbox" name="deleteImages[]" id="check<%=i%>" value="<%=img.filename%>">
+            <!-- value를 images.filename과 매치시켜 삭제할 대상을 찾는다 -->
+            <!-- deleteImages는 지정해서 삭제할 이미지들의 배열이다 -->
+            <label for="check<%=i%>">delete?</label>
+          </div>
+        <% }) %> 
       </div>
       <div class="mb-3">
         <label class="form-label" for="price">Campground Price</label>
@@ -39,3 +50,5 @@
     <a href="/campgrounds/<%=campground._id%>">back to campground</a>
   </div>
 </div>
+
+https://res.cloudinary.com/demo/image/upload/ar_1.0,c_fill,g_north_west,w_250/docs/models.jpg

@@ -1,5 +1,5 @@
 const Campground = require("../models/Campground");
-
+const { cloudinary } = require("../cloudinary/index");
 module.exports.index = async (req, res) => {
   const campgrounds = await Campground.find({});
   res.render("campgrounds/index", { campgrounds });
@@ -48,9 +48,27 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updateCampground = async (req, res) => {
   const { id } = req.params;
+  console.log(req.body);
   const campground = await Campground.findByIdAndUpdate(id, {
     ...req.body.campground, // 이 부분 중괄호로 감싸야 작동함
   });
+  const imgs = req.files.map((f) => ({
+    url: f.path,
+    filename: f.filename,
+  }));
+  campground.images.push(...imgs);
+  await campground.save();
+  if (req.body.deleteImages) {
+    for (let filename of req.body.deleteImages) {
+      await cloudinary.uploader.destroy(filename);
+    }
+    // 클라우디네리 저장소에서도 해당 이미지를 삭제해준다
+    await campground.updateOne({
+      $pull: { images: { filename: { $in: req.body.deleteImages } } },
+    });
+    console.log(campground);
+  }
+  // 삭제할 이미지가 있을 시, 선택한 이미지를 campground에서 제외하고 업데이트?
   req.flash("update", "캠핑장이 업데이트되었습니다."); //플래시 생성
   res.redirect(`/campgrounds/${campground._id}`);
 };
